@@ -24,7 +24,7 @@ router.get('/:id', async (req, res) => {
       include: [{model: Product}]
     });
 
-    if(!categoryData) {
+    if(!oneCategory) {
       res.status(404).json({message: "Category not found"});
       return
 
@@ -51,7 +51,12 @@ router.put('/:id', async (req, res) => {
   // update a category by its `id` value
   try{
     const updateCategory = await Category.update({
-      category_id: req.body.category_id
+      category_name: req.body.category_name
+    },
+    {
+      where: {
+        id: req.params.id
+      }
     });
     res.status(200).json(updateCategory);
   } catch (err) {
